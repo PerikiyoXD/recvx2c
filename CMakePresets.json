@@ -1,0 +1,27 @@
+{
+    "version": 3,
+    "configurePresets": [
+      {
+        "name": "ps2-release",
+        "displayName": "PS2 Release",
+        "description": "Release build using the Metrowerks PS2 compiler",
+        "generator": "Ninja",
+        "binaryDir": "${sourceDir}/build",
+        "cacheVariables": {
+          "CMAKE_BUILD_TYPE": "Release",
+          "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/cmake/toolchain-ps2.cmake"
+        },
+        "environment": {
+          "MWCIncludes": "C:/usr/local/sce/ee/gcc/ee/include;C:/usr/local/sce/ee/include;C:/Program Files (x86)/Metrowerks/CodeWarrior for PS2 v3.9/PS2 Support",
+          "MWLibraries": "C:/usr/local/sce/ee/gcc/ee/lib;C:/usr/local/sce/ee/lib;C:/usr/local/sce/ee/gcc/lib;C:/usr/local/sce/ee/gcc/lib/gcc-lib/ee/2.9-ee-991111-01"
+        }
+      }
+    ],
+    "buildPresets": [
+      {
+        "name": "ps2-release-build",
+        "configurePreset": "ps2-release"
+      }
+    ]
+  }
+  
