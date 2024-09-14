@@ -1,119 +1,125 @@
 import os
 import subprocess
-import sys
 import json
+import argparse
+import sys
 
-# Function to load environment variables from a JSON file
-def load_env_json(filename):
+def load_json(filename):
+    """Load JSON data from a file."""
     with open(filename, 'r') as f:
         return json.load(f)
 
-# Function to run a command and log it for compile_commands.json
-def run_command(command, env_vars, capture_output=True):
+
+def write_json(filename, data):
+    """Write JSON data to a file."""
+    with open(filename, 'w') as f:
+        json.dump(data, f, indent=4)
+
+
+def run_command(command, env_vars, log_file='build.log'):
+    """Run a shell command with specified environment variables and log output."""
     print(f"Running: {' '.join(command)}")
-    
-    # Pass the current environment variables and add custom ones
+
     env = os.environ.copy()
     env.update(env_vars)
-    
-    # Run the command and capture output
+
     result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    
-    # Write output to build.log
-    with open('build.log', 'a') as log_file:
-        log_file.write(result.stdout.decode('utf-8'))
-        log_file.write(result.stderr.decode('utf-8'))
-    
-    # Print error if the command failed
+
+    # Log the result to file
+    with open(log_file, 'a') as f:
+        f.write(result.stdout.decode('utf-8'))
+        f.write(result.stderr.decode('utf-8'))
+
     if result.returncode != 0:
         print(f"Error: {result.stderr.decode('utf-8')}")
-        return result.returncode
+        sys.exit(result.returncode)
     
-    if capture_output:
-        return result.stdout.decode('utf-8')
-    
-    print(result.stdout.decode('utf-8'))
+    return result.stdout.decode('utf-8')
 
-# Function to create compile_commands.json entry
-def create_compile_command_entry(compiler, source, object_file, include_dirs):
+
+def create_compile_command_entry(compiler, source, object_file, include_dirs, defines):
+    """Create a compile command entry for compile_commands.json."""
     valid_include_dirs = [os.path.abspath(inc) for inc in include_dirs if os.path.isdir(inc)]
-
     invalid_include_dirs = [inc for inc in include_dirs if not os.path.isdir(inc)]
     if invalid_include_dirs:
         print(f"Warning: Invalid include directories: {invalid_include_dirs}")
 
     return {
         "directory": os.getcwd(),
-        "command": ' '.join([compiler] + ['-c', source, '-o', object_file] + [f'-D{value}' for value in env_vars["defines"]]
-            + [f'-I"{os.path.abspath(inc)}"' for inc in valid_include_dirs]),
+        "command": ' '.join([compiler, '-c', source, '-o', object_file] +
+                            [f'-D{d}' for d in defines] +
+                            [f'-I{inc}' for inc in valid_include_dirs]),
         "file": source
     }
 
-# Load environment variables from the .env.json file
-env_vars = load_env_json('.env.json')
 
-# Compiler and linker from the JSON file
-compiler = env_vars["compiler"]
-linker = env_vars["linker"]
+def compile_source_files(compiler, sources, compiler_flags, include_dirs, defines, env_vars):
+    """Compile all source files and return object file list and compile commands."""
+    objects = []
+    compile_commands = []
 
-# Include directories and library directories from the JSON file
-include_dirs = env_vars["includes"]
-library_dirs = env_vars["libraries"]
+    for source in sources:
+        object_file = source.replace(".c", ".o")
+        objects.append(object_file)
 
-# Compiler and linker flags
-compiler_flags = env_vars["compiler_flags"]
-linker_flags = env_vars["linker_flags"]
+        compile_command = [compiler] + compiler_flags + ['-c', source, '-o', object_file] + \
+                          [f'-I{inc}' for inc in include_dirs] + [f'-D{d}' for d in defines]
 
-# Libraries to link against
-libraries = env_vars["libs"]
+        run_command(compile_command, env_vars)
 
-# Source files and object files
-sources = env_vars["source_files"]
-objects = []
+        compile_commands.append(create_compile_command_entry(compiler, source, object_file, include_dirs, defines))
 
-# List to store entries for compile_commands.json
-compile_commands = []
+    return objects, compile_commands
 
-# Compilation phase: Compile each source file into an object file
-for source in sources:
-    object_file = source.replace(".c", ".o")
-    objects.append(object_file)
-    
-    # Build the compile command
-    compile_command = [compiler] + compiler_flags + ['-c', source, '-o', object_file] + [f'-D{value}' for value in env_vars["defines"]]
-    for inc_dir in include_dirs:
-        compile_command.append(f'-I{inc_dir}')
-    
-    # Set up environment for compiler
+
+def link_objects(linker, objects, linker_flags, libraries, library_dirs, env_vars):
+    """Link object files into the final executable."""
+    output_elf = "main.elf"
+    link_command = [linker] + linker_flags + objects + ['-o', output_elf] + \
+                   [f'-L{lib}' for lib in library_dirs] + libraries
+
+    run_command(link_command, env_vars)
+    return output_elf
+
+
+def main(args):
+    """Main entry point for the build process."""
+    # Load environment variables from JSON
+    env_vars = load_json(args.env_file)
+
+    compiler = env_vars["compiler"]
+    linker = env_vars["linker"]
+    include_dirs = env_vars["includes"]
+    library_dirs = env_vars["libraries"]
+    compiler_flags = env_vars["compiler_flags"]
+    linker_flags = env_vars["linker_flags"]
+    libraries = env_vars["libs"]
+    sources = env_vars["source_files"]
+    defines = env_vars.get("defines", [])
+
+    # Compile source files
     compiler_env = {
-        "MWLibraries": ";".join(env_vars["libraries"]),
+        "MWLibraries": ";".join(library_dirs),
         "MWLibraryFiles": ""
     }
-    
-    # Run the compile command
-    run_command(compile_command, compiler_env, capture_output=True)
-    
-    # Add entry to compile_commands.json
-    compile_commands.append(create_compile_command_entry(compiler, source, object_file, include_dirs))
+    objects, compile_commands = compile_source_files(compiler, sources, compiler_flags, include_dirs, defines, compiler_env)
 
-# Linking phase: Link object files into the final executable
-output_elf = "main.elf"
-link_command = [linker] + linker_flags + objects + ['-o', output_elf]
-for lib_dir in library_dirs:
-    link_command.append(f'-L{lib_dir}')
-link_command += libraries
+    # Link object files
+    linker_env = {
+        "MWLibraries": ";".join(library_dirs),
+        "MWLibraryFiles": ""
+    }
+    output_elf = link_objects(linker, objects, linker_flags, libraries, library_dirs, linker_env)
 
-# Set up environment for linker
-linker_env = {
-    "MWLibraries": ";".join(env_vars["libraries"]),
-    "MWLibraryFiles": ""
-}
+    # Save compile_commands.json
+    write_json('compile_commands.json', compile_commands)
+    print(f"Build completed successfully: {output_elf}")
 
-# Run the link command
-run_command(link_command, linker_env, capture_output=True)
 
-# Write compile_commands.json to disk
-with open('compile_commands.json', 'w') as f:
-    json.dump(compile_commands, f, indent=4)
+if __name__ == "__main__":
+    # Argument parser setup
+    parser = argparse.ArgumentParser(description="Build automation script.")
+    parser.add_argument('--env-file', type=str, default='.env.json', help="Path to the JSON file containing environment variables.")
+    args = parser.parse_args()
 
-print(f"Build completed successfully: {output_elf}")
+    main(args)
