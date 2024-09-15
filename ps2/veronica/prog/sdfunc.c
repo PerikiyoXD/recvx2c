@@ -2235,8 +2235,7 @@ void QuickGetDiscTrayStatus()
 // Start address: 0x292480
 void InitFirstSofdec()
 {
-	// Line 262, Address: 0x292480, Func Offset: 0
-	// Func End, Address: 0x292488, Func Offset: 0x8
+	mwPlyPreInitSofdec();
 }
 
 // 

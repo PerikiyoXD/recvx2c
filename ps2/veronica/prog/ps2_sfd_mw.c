@@ -1,61 +1,4 @@
-typedef struct _anon0;
-typedef struct _anon1;
-typedef struct _UUID;
-typedef struct _anon2;
-typedef struct _anon3;
-typedef struct _anon4;
-typedef struct _sj_vtbl;
-typedef enum _mwe_ply_stat;
-typedef struct _anon5;
-typedef struct _anon6;
-typedef struct _mwply_if;
-typedef struct _anon7;
-typedef struct _anon8;
-typedef struct _anon9;
-typedef struct _anon10;
-typedef struct _anon11;
-
-typedef void(*type_0)(_anon0*, int*, int*);
-typedef void(*type_1)(_anon0*, int);
-typedef void(*type_2)(_anon0*, int);
-typedef int(*type_3)(_anon0*);
-typedef void(*type_4)(_anon0*, int, int);
-typedef int(*type_5)(_anon0*, int);
-typedef void(*type_7)(_anon0*, _anon3*);
-typedef void(*type_9)(_anon0*, void*, int);
-typedef void(*type_11)();
-typedef void(*type_12)();
-typedef void(*type_13)();
-typedef void(*type_14)(_anon3*);
-typedef _UUID*(*type_15)(_anon3*);
-typedef void(*type_17)(_anon3*);
-typedef void(*type_19)(_anon3*, int, int, _anon4*);
-typedef void(*type_21)(_anon3*, int, _anon4*);
-typedef void(*type_22)();
-typedef void(*type_23)();
-typedef void(*type_24)();
-typedef void(*type_25)(_anon3*, int, _anon4*);
-typedef void(*type_26)(_anon0*);
-typedef void(*type_27)(_anon0*);
-typedef int(*type_29)(_anon3*, int);
-typedef void(*type_30)(_anon0*);
-typedef int(*type_31)(_anon3*, int, int, int*);
-typedef void(*type_32)(_anon0*, char*);
-typedef void(*type_33)(_anon0*);
-typedef void(*type_34)(_anon3*, void(*)(void*, int), void*);
-typedef void(*type_35)(void*, int);
-typedef _mwe_ply_stat(*type_36)(_anon0*);
-
-typedef char type_6[256];
-typedef unsigned char type_8[8];
-typedef unsigned char type_10[32];
-typedef unsigned char type_16[450560];
-typedef int type_18[15];
-typedef <unknown fundamental type (0xa510)> type_20[1400];
-typedef int type_28[4];
-typedef char type_37[16];
-typedef unsigned char type_38[8];
-typedef char type_39[256];
+#include <ps2_sfd_mw.h>
 
 struct _anon0
 {
@@ -97,34 +40,7 @@ struct _anon2
 	unsigned int MVCancelButton;
 };
 
-struct _anon3
-{
-	_sj_vtbl* vtbl;
-};
-
-struct _anon4
-{
-	char* data;
-	int len;
-};
-
-struct _sj_vtbl
-{
-	void(*QueryInterface)();
-	void(*AddRef)();
-	void(*Release)();
-	void(*Destroy)(_anon3*);
-	_UUID*(*GetUuid)(_anon3*);
-	void(*Reset)(_anon3*);
-	void(*GetChunk)(_anon3*, int, int, _anon4*);
-	void(*UngetChunk)(_anon3*, int, _anon4*);
-	void(*PutChunk)(_anon3*, int, _anon4*);
-	int(*GetNumData)(_anon3*, int);
-	int(*IsGetChunk)(_anon3*, int, int, int*);
-	void(*EntryErrFunc)(_anon3*, void(*)(void*, int), void*);
-};
-
-enum _mwe_ply_stat
+enum MWE_PLY_STAT
 {
 	MWE_PLY_STAT_STOP,
 	MWE_PLY_STAT_PREP,
@@ -156,7 +72,7 @@ struct _mwply_if
 	void(*Destroy)(_anon0*);
 	void(*StartFname)(_anon0*, char*);
 	void(*Stop)(_anon0*);
-	_mwe_ply_stat(*GetStat)(_anon0*);
+	MWE_PLY_STAT(*GetStat)(_anon0*);
 	void(*GetTime)(_anon0*, int*, int*);
 	void(*Pause)(_anon0*, int);
 	void(*SetOutVol)(_anon0*, int);
@@ -229,16 +145,16 @@ int mwPlyGetBright();
 void mwPlyInitSofdec();
 void mwPlyPreInitSofdec();
 void mwPlySetDispMode();
-void mwPlySetDispPos(float lx, float ly);
-void mwPlySetFastHalfpel();
-void mwPlyStartFrame();
-void mwPlySetDispSize(float sx, float sy);
+void mwPlySetDispPos(MWPLY mwply, float lx, float ly);
+void mwPlySetFastHalfpel(MWPLY mwply, Sint32 sw);
+void mwPlyStartFrame(void);
+void mwPlySetDispSize(MWPLY mwply, float sx, float sy);
 void ps2mwPlyVsyncHndl();
 void ps2mwPlyExecSvrHndl();
 void ps2mwPlyDestroy();
 void ps2mwPlyStartFname(char* fname);
 void ps2mwPlyStop();
-_mwe_ply_stat ps2mwPlyGetStat();
+MWE_PLY_STAT ps2mwPlyGetStat();
 void ps2mwPlyGetTime(int* ncount, int* tscale);
 void ps2mwPlyPause(int sw);
 void ps2mwPlySetOutVol(int vol);
@@ -309,51 +225,41 @@ _anon0* ps2mwPlyCreateSofdec(char* fname)
 
 // 
 // Start address: 0x2d8900
-void mwPlyExecServer()
+void mwPlyExecServer(void)
+
 {
-	// Line 366, Address: 0x2d8900, Func Offset: 0
-	// Line 378, Address: 0x2d8908, Func Offset: 0x8
-	// Line 383, Address: 0x2d8910, Func Offset: 0x10
-	// Line 384, Address: 0x2d8918, Func Offset: 0x18
-	// Line 390, Address: 0x2d8940, Func Offset: 0x40
-	// Line 394, Address: 0x2d894c, Func Offset: 0x4c
-	// Line 395, Address: 0x2d8960, Func Offset: 0x60
-	// Line 396, Address: 0x2d8968, Func Offset: 0x68
-	// Line 399, Address: 0x2d897c, Func Offset: 0x7c
-	// Func End, Address: 0x2d8988, Func Offset: 0x88
+  movie_draw = 0;
+  do {
+    readMpeg();
+    if (movie_draw != 0) break;
+  } while (DAT_01e21914 != 3);
+  sceGsSyncPath();
+  setImageTag(0x1e21940,voBuf);
+  vbrank_draw();
+  DAT_01e270cc = DAT_01e270cc + -1;
+  return;
 }
 
 // 
 // Start address: 0x2d8990
-void mwPlyFinishSofdec()
-{
-	// Line 426, Address: 0x2d8990, Func Offset: 0
-	// Func End, Address: 0x2d8998, Func Offset: 0x8
-}
+void mwPlyFinishSofdec() { // Line 426, Address: 0x2d8990, Func Offset: 0
+} // Func End, Address: 0x2d8998, Func Offset: 0x8
 
 // 
 // Start address: 0x2d89a0
-int mwPlyGetBright()
-{
-	// Line 459, Address: 0x2d89a0, Func Offset: 0
-	// Func End, Address: 0x2d89a8, Func Offset: 0x8
-}
+int mwPlyGetBright() { // Line 459, Address: 0x2d89a0, Func Offset: 0
+} // Func End, Address: 0x2d89a8, Func Offset: 0x8
 
-// 
+// https://decomp.me/scratch/V6i6f
 // Start address: 0x2d89b0
-void mwPlyInitSofdec()
-{
-	// Line 518, Address: 0x2d89b0, Func Offset: 0
-	// Func End, Address: 0x2d89b8, Func Offset: 0x8
-}
+void mwPlyInitSofdec() { // Line 518, Address: 0x2d89b0, Func Offset: 0
+} // Func End, Address: 0x2d89b8, Func Offset: 0x8
 
-// 
+
+// https://decomp.me/scratch/ZkPaK
 // Start address: 0x2d89c0
-void mwPlyPreInitSofdec()
-{
-	// Line 544, Address: 0x2d89c0, Func Offset: 0
-	// Func End, Address: 0x2d89c8, Func Offset: 0x8
-}
+void mwPlyPreInitSofdec() { // Line 544, Address: 0x2d89c0, Func Offset: 0
+} // Func End, Address: 0x2d89c8, Func Offset: 0x8
 
 // 
 // Start address: 0x2d89d0
@@ -454,7 +360,7 @@ void ps2mwPlyStop()
 
 // 
 // Start address: 0x2d8b50
-_mwe_ply_stat ps2mwPlyGetStat()
+MWE_PLY_STAT ps2mwPlyGetStat()
 {
 	// Line 895, Address: 0x2d8b50, Func Offset: 0
 	// Line 896, Address: 0x2d8b54, Func Offset: 0x4

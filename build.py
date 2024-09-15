@@ -32,9 +32,9 @@ def run_command(command, env_vars, log_file='build.log'):
 
     if result.returncode != 0:
         print(f"Error: {result.stderr.decode('utf-8')}")
-        sys.exit(result.returncode)
+        return False  # Return False on failure
     
-    return result.stdout.decode('utf-8')
+    return True  # Return True on success
 
 
 def create_compile_command_entry(compiler, source, object_file, include_dirs, defines):
@@ -57,6 +57,7 @@ def compile_source_files(compiler, sources, compiler_flags, include_dirs, define
     """Compile all source files and return object file list and compile commands."""
     objects = []
     compile_commands = []
+    build_failed = False  # Track if any compilation fails
 
     for source in sources:
         object_file = source.replace(".c", ".o")
@@ -65,11 +66,13 @@ def compile_source_files(compiler, sources, compiler_flags, include_dirs, define
         compile_command = [compiler] + compiler_flags + ['-c', source, '-o', object_file] + \
                           [f'-I{inc}' for inc in include_dirs] + [f'-D{d}' for d in defines]
 
-        run_command(compile_command, env_vars)
+        # Continue compiling even if one source fails
+        if not run_command(compile_command, env_vars):
+            build_failed = True  # Mark the build as failed if any command fails
 
         compile_commands.append(create_compile_command_entry(compiler, source, object_file, include_dirs, defines))
 
-    return objects, compile_commands
+    return objects, compile_commands, build_failed
 
 
 def link_objects(linker, objects, linker_flags, libraries, library_dirs, env_vars):
@@ -78,7 +81,8 @@ def link_objects(linker, objects, linker_flags, libraries, library_dirs, env_var
     link_command = [linker] + linker_flags + objects + ['-o', output_elf] + \
                    [f'-L{lib}' for lib in library_dirs] + libraries
 
-    run_command(link_command, env_vars)
+    if not run_command(link_command, env_vars):
+        return None  # Return None if linking fails
     return output_elf
 
 
@@ -102,18 +106,25 @@ def main(args):
         "MWLibraries": ";".join(library_dirs),
         "MWLibraryFiles": ""
     }
-    objects, compile_commands = compile_source_files(compiler, sources, compiler_flags, include_dirs, defines, compiler_env)
+    objects, compile_commands, build_failed = compile_source_files(compiler, sources, compiler_flags, include_dirs, defines, compiler_env)
 
-    # Link object files
-    linker_env = {
-        "MWLibraries": ";".join(library_dirs),
-        "MWLibraryFiles": ""
-    }
-    output_elf = link_objects(linker, objects, linker_flags, libraries, library_dirs, linker_env)
-
-    # Save compile_commands.json
+    # Even if the compilation fails, we want to generate the compile_commands.json for IDEs
     write_json('compile_commands.json', compile_commands)
-    print(f"Build completed successfully: {output_elf}")
+
+    # If the compilation succeeded, attempt to link the objects
+    if not build_failed:
+        linker_env = {
+            "MWLibraries": ";".join(library_dirs),
+            "MWLibraryFiles": ""
+        }
+        output_elf = link_objects(linker, objects, linker_flags, libraries, library_dirs, linker_env)
+
+        if output_elf:
+            print(f"Build completed successfully: {output_elf}")
+        else:
+            print("Build failed during linking.")
+    else:
+        print("Build failed during compilation.")
 
 
 if __name__ == "__main__":

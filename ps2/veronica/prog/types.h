@@ -1,3 +1,7 @@
+#pragma once
+
+#include <ninja.h>
+
 #define NULL 0
 
 #define	CheckCmdReq(vol, pan, pitch)	(0x00|0|((vol)&1)|(((pan)&1)<<1)|(((pitch)&1)<<2))
@@ -789,15 +793,6 @@ typedef struct Unknown18 {
 }
 Unknown18;
 
-
-typedef struct Unknown17 {
-    Vector3 c1;
-    Vector3 c2;
-    float r;
-}
-Unknown17;
-
-
 typedef struct Unknown16 {
     /*  0 */ Vector3 c1;
     /* 12 */ Vector3 c2;
@@ -1266,7 +1261,7 @@ typedef struct BH_PWORK {
     int wpnr_no;
     int wpnl_no;
     unsigned int at_flg;
-    Unknown17 watr;
+    NJS_CAPSULE watr;
     Unknown18* cpcl;
     short wax;
     short way;
@@ -1713,103 +1708,78 @@ System;
 
 /* Dreamcast SDK types */
 
-#define PDD_PLOGIC_ACTIVE 0
+// #define PDD_PLOGIC_ACTIVE 0
 
-#define PDD_PLOGIC_NEGATIVE 1
+// #define PDD_PLOGIC_NEGATIVE 1
 
-typedef struct PDS_PERIPHERALINFO
-{
-	unsigned int type;
-	unsigned int reserved[3];
-	unsigned char is_root;
-	unsigned char area_code;
-	unsigned char connector_dir[2];
-	char product_name[32];
-	char license[64];
-	unsigned short stdby_pow;
-	unsigned short max_pow;
-} PDS_PERIPHERALINFO;
+// typedef struct PDS_PERIPHERALINFO
+// {
+// 	unsigned int type;
+// 	unsigned int reserved[3];
+// 	unsigned char is_root;
+// 	unsigned char area_code;
+// 	unsigned char connector_dir[2];
+// 	char product_name[32];
+// 	char license[64];
+// 	unsigned short stdby_pow;
+// 	unsigned short max_pow;
+// } PDS_PERIPHERALINFO;
 
-typedef struct PDS_PERIPHERAL
-{
-	unsigned int id;
-	unsigned int support;
-	unsigned int on;
-	unsigned int off;
-	unsigned int press;
-	unsigned int release;
-	unsigned short r;
-	unsigned short l;
-	short x1;
-	short y1;
-	short x2;
-	short y2;
-	char* name;
-	void* extend;
-	unsigned int old;
-	PDS_PERIPHERALINFO* info;
-} PDS_PERIPHERAL; 
+// typedef struct PDS_PERIPHERAL
+// {
+// 	unsigned int id;
+// 	unsigned int support;
+// 	unsigned int on;
+// 	unsigned int off;
+// 	unsigned int press;
+// 	unsigned int release;
+// 	unsigned short r;
+// 	unsigned short l;
+// 	short x1;
+// 	short y1;
+// 	short x2;
+// 	short y2;
+// 	char* name;
+// 	void* extend;
+// 	unsigned int old;
+// 	PDS_PERIPHERALINFO* info;
+// } PDS_PERIPHERAL; 
 
-typedef struct NJS_POINT3
-{
-	float x;
-	float y;
-	float z;
-} NJS_POINT3;
+// typedef struct NJS_SCRVECTOR
+// {
+// 	float x;
+// 	float y;
+// 	float z;
+// 	float iz;
+// 	float fog;
+// } NJS_SCRVECTOR;
 
-typedef struct NJS_SCRVECTOR
-{
-	float x;
-	float y;
-	float z;
-	float iz;
-	float fog;
-} NJS_SCRVECTOR;
+// typedef struct NJS_SCREEN
+// {
+// 	float dist;
+// 	float w;
+// 	float h;
+// 	float cx;
+// 	float cy;
+// } NJS_SCREEN;
 
-typedef struct NJS_SCREEN
-{
-	float dist;
-	float w;
-	float h;
-	float cx;
-	float cy;
-} NJS_SCREEN;
+// typedef struct NJS_POLYGON_VTX
+// {
+// 	float x;
+// 	float y;
+// 	float z;
+// 	unsigned int col;
+// } NJS_POLYGON_VTX;
 
-typedef struct NJS_POLYGON_VTX
-{
-	float x;
-	float y;
-	float z;
-	unsigned int col;
-} NJS_POLYGON_VTX;
+// typedef struct NJS_QUAD_TEXTURE
+// {
+// 	float x1;
+// 	float y1;
+// 	float x2;
+// 	float y2;
+// 	float u1;
+// 	float v1;
+// 	float u2;
+// 	float v2;
+// } NJS_QUAD_TEXTURE;
 
-typedef struct NJS_QUAD_TEXTURE
-{
-	float x1;
-	float y1;
-	float x2;
-	float y2;
-	float u1;
-	float v1;
-	float u2;
-	float v2;
-} NJS_QUAD_TEXTURE;
-
-typedef struct NJS_VIEW
-{
-	float m[16];
-	float px;
-	float py;
-	float pz;
-	float vx;
-	float vy;
-	float vz;
-	int roll;
-	float apx;
-	float apy;
-	float apz;
-	float avx;
-	float avy;
-	float avz;
-	int aroll;
-} NJS_VIEW;

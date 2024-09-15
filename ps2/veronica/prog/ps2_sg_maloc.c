@@ -1,17 +1,15 @@
-typedef struct _HM;
-
 
 typedef unsigned int type_0[12];
 typedef unsigned char type_1[13422592];
 
-struct _HM
+typedef struct _HM
 {
 	unsigned int Use_size;
 	unsigned int Total_size;
 	unsigned int dummy;
-	_HM* pNext_work;
+	struct _HM* pNext_work;
 	unsigned int dummy64[12];
-};
+}_HM;
 
 unsigned int __free_malloc_size;
 _HM* Ps2_malloc_p;

@@ -445,7 +445,7 @@ void EasyDispMessage(float PosY, unsigned int MessageNo);
 
 /* 100% match */
 int bhCalcVtxBuffer() { // Line 343, Address: 0x131b90
-    return 0;
+    return 0; // NO-OP
 }
 
 /* 100% match */

@@ -1,0 +1,12 @@
+[
+    {
+        "directory": "C:\\WorkDir\\recvx2c",
+        "command": "C:/Users/pxd/Desktop/compilers/mwcps2-2.3.3-000906/mwccps2.exe -c init.c -o init.o -DDEBUG -IC:\\usr\\local\\sce\\ee\\gcc\\ee\\include -IC:\\usr\\local\\sce\\ee\\include -IC:\\Program Files (x86)\\Metrowerks\\CodeWarrior for PS2 v3.9\\PS2 Support -IC:\\usr\\local\\sce\\ee\\gcc\\lib\\gcc-lib\\ee\\2.9-ee-991111-01\\include -IF:\\Development\\reverseEngineering\\segaKatana\\KATANA11B\\Include -ID:\\torrents\\cri-sdk\\crisdk_ps2_110_mwlib\\cri\\mwlib\\ee\\include -ID:\\torrents\\cri-sdk\\crisdk_ps2_110_mwlib\\cri\\mwlib\\include",
+        "file": "init.c"
+    },
+    {
+        "directory": "C:\\WorkDir\\recvx2c",
+        "command": "C:/Users/pxd/Desktop/compilers/mwcps2-2.3.3-000906/mwccps2.exe -c ps2/veronica/prog/mwwrap.c -o ps2/veronica/prog/mwwrap.o -DDEBUG -IC:\\usr\\local\\sce\\ee\\gcc\\ee\\include -IC:\\usr\\local\\sce\\ee\\include -IC:\\Program Files (x86)\\Metrowerks\\CodeWarrior for PS2 v3.9\\PS2 Support -IC:\\usr\\local\\sce\\ee\\gcc\\lib\\gcc-lib\\ee\\2.9-ee-991111-01\\include -IF:\\Development\\reverseEngineering\\segaKatana\\KATANA11B\\Include -ID:\\torrents\\cri-sdk\\crisdk_ps2_110_mwlib\\cri\\mwlib\\ee\\include -ID:\\torrents\\cri-sdk\\crisdk_ps2_110_mwlib\\cri\\mwlib\\include",
+        "file": "ps2/veronica/prog/mwwrap.c"
+    }
+]
