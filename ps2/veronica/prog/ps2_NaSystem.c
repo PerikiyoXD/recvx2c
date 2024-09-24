@@ -155,7 +155,7 @@ void njTextureFilterMode(int mode)
 }
 
 /* empty */
-void njPolygonCullingMode() { } // Line 306, Address: 0x2e16a0, Func Offset: 0
+void njPolygonCullingMode(Int mode) { } // Line 306, Address: 0x2e16a0, Func Offset: 0
 
 //
 // Start address: 0x2e16b0
