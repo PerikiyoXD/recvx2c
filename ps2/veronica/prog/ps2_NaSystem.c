@@ -25,7 +25,7 @@ void njInitSystem(int mode, int frame, int count)
 }
 
 /* empty */
-void njInitVertexBuffer() { } // Line 119, Address: 0x2e13b0, Func Offset: 0
+void njInitVertexBuffer(Sint32 op, Sint32 om, Sint32 tp, Sint32 tm, Sint32 pt) { } // Line 119, Address: 0x2e13b0, Func Offset: 0
 
 //
 // Start address: 0x2e13c0
