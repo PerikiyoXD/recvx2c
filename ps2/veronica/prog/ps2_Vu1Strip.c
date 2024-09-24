@@ -144,23 +144,24 @@ void vu1SetAlphaRatio(float fAlpha)
     // Func End, Address: 0x2d3afc, Func Offset: 0x2c
 }
 
-//
-// Start address: 0x2d3ff0
-void InitNodeArraySet(SCISSOR_SYSTEM* scissor)
-{
-    // Line 482, Address: 0x2d3ff0, Func Offset: 0
-    // Line 483, Address: 0x2d3ff4, Func Offset: 0x4
-    // Line 484, Address: 0x2d3ff8, Func Offset: 0x8
-    // Line 485, Address: 0x2d3ffc, Func Offset: 0xc
-    // Line 486, Address: 0x2d4000, Func Offset: 0x10
-    // Line 487, Address: 0x2d4004, Func Offset: 0x14
-    // Line 488, Address: 0x2d4008, Func Offset: 0x18
-    // Line 489, Address: 0x2d400c, Func Offset: 0x1c
-    // Line 490, Address: 0x2d4010, Func Offset: 0x20
-    // Line 491, Address: 0x2d4014, Func Offset: 0x24
-    // Line 495, Address: 0x2d4018, Func Offset: 0x28
-    // Func End, Address: 0x2d4020, Func Offset: 0x30
-}
+/* 100% match - Handwritten function */
+void InitNodeArraySet(register SCISSOR_SYSTEM* scissor) {
+
+    asm (
+        sw   zero, SCISSOR_SYSTEM.rotflag(scissor);     // Line 482, Address: 0x2d3ff0, Func Offset: 0
+        sw   zero, SCISSOR_SYSTEM.flipflag(scissor);    // Line 483, Address: 0x2d3ff4, Func Offset: 0x4
+        add  t0, zero, scissor;                         // Line 484, Address: 0x2d3ff8, Func Offset: 0x8
+        addi t2, zero, 3;                               // Line 485, Address: 0x2d3ffc, Func Offset: 0xc
+        addi t0, t0, SCISSOR_SYSTEM.narray;             // Line 486, Address: 0x2d4000, Func Offset: 0x10
+        addi t1, t0, sizeof(SCISSOR_NODE_ARRAY);        // Line 487, Address: 0x2d4004, Func Offset: 0x14
+        sw   t0, SCISSOR_SYSTEM.in(scissor);            // Line 488, Address: 0x2d4008, Func Offset: 0x18
+        sw   t1, SCISSOR_SYSTEM.out(scissor);           // Line 489, Address: 0x2d400c, Func Offset: 0x1c
+        sw   zero, SCISSOR_NODE_ARRAY.nodeNum(t0);      // Line 490, Address: 0x2d4010, Func Offset: 0x20
+        sw   zero, SCISSOR_NODE_ARRAY.nodeNum(t1);      // Line 491, Address: 0x2d4014, Func Offset: 0x24
+        sw   t2, SCISSOR_NODE_ARRAY.nodeNum(scissor);
+    );
+
+} // Line 495, Address: 0x2d4018, Func Offset: 0x28
 
 /* 100% match */
 void InitScissorPlane(SCISSOR_PLANE_SET *sp) {
