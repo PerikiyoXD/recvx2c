@@ -177,18 +177,11 @@ void InitScissorPlane(SCISSOR_PLANE_SET *sp) {
   sp->plane[4].xyzflag = 0;
 } // Line 516, Address: 0x2d4070, Func Offset: 0x50
 
-//
-// Start address: 0x2d4080
-void _Init_ScissorSystem()
-{
-    // Line 520, Address: 0x2d4080, Func Offset: 0
-    // Line 521, Address: 0x2d4084, Func Offset: 0x4
-    // Line 520, Address: 0x2d4088, Func Offset: 0x8
-    // Line 521, Address: 0x2d408c, Func Offset: 0xc
-    // Line 522, Address: 0x2d4094, Func Offset: 0x14
-    // Line 523, Address: 0x2d40a0, Func Offset: 0x20
-    // Func End, Address: 0x2d40ac, Func Offset: 0x2c
-}
+/* 100% match */
+void _Init_ScissorSystem(void) { // Line 520, Address: 0x2d4080, Func Offset: 0
+    InitScissorPlane(&planeset); // Line 521, Address: 0x2d4084, Func Offset: 0x4
+    InitNodeArraySet(&scissorflip); // Line 522, Address: 0x2d4094, Func Offset: 0x14
+} // Line 523, Address: 0x2d40a0, Func Offset: 0x20
 
 //
 // Start address: 0x2d40b0
