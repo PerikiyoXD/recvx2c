@@ -1,6 +1,6 @@
 #include <shinobi.h> 
 #include "types.h"
-
+#include "stdio.h"
 
 NJS_MATRIX cmat; /* UNUSED */
 extern float BHD_ASPECT_X;
@@ -143,11 +143,13 @@ char BIO_CURRENT[64]; /* UNUSED */
 
 
 
+
+
 /* 100% match */
 void njUserInit() { // Line 149, Address: 0x12b0f0
     int temp; // not originally outputted by dwarf2cpp
     
-    
+    scePrintf("njUserInit\n");
     
     
     
@@ -338,6 +340,7 @@ int njUserMain() { // Line 300, Address: 0x12b430
 
 /* 100% match */
 void njUserExit() { // Line 342, Address: 0x12b4e0
+    scePrintf("njUserExit\n");
     //NERF// ExitSoundProgram(); // Line 343, Address: 0x12b4e8
     
     BupExit(); // Line 345, Address: 0x12b4f0,
