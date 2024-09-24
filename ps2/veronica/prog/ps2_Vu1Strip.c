@@ -162,23 +162,20 @@ void InitNodeArraySet(SCISSOR_SYSTEM* scissor)
     // Func End, Address: 0x2d4020, Func Offset: 0x30
 }
 
-//
-// Start address: 0x2d4020
-void InitScissorPlane(SCISSOR_PLANE_SET* sp)
-{
-    // Line 503, Address: 0x2d4020, Func Offset: 0
-    // Line 504, Address: 0x2d4028, Func Offset: 0x8
-    // Line 505, Address: 0x2d4030, Func Offset: 0x10
-    // Line 508, Address: 0x2d4038, Func Offset: 0x18
-    // Line 509, Address: 0x2d4040, Func Offset: 0x20
-    // Line 510, Address: 0x2d4048, Func Offset: 0x28
-    // Line 511, Address: 0x2d4050, Func Offset: 0x30
-    // Line 512, Address: 0x2d4058, Func Offset: 0x38
-    // Line 513, Address: 0x2d4060, Func Offset: 0x40
-    // Line 514, Address: 0x2d4068, Func Offset: 0x48
-    // Line 516, Address: 0x2d4070, Func Offset: 0x50
-    // Func End, Address: 0x2d4078, Func Offset: 0x58
-}
+/* 100% match */
+void InitScissorPlane(SCISSOR_PLANE_SET *sp) {
+  sp->planeNum = 5; // Line 503, Address: 0x2d4020, Func Offset: 0
+  sp->plane[0].clipmask = 0x820; // Line 504, Address: 0x2d4028, Func Offset: 0x8
+  sp->plane[0].xyzflag = 0x12; // Line 505, Address: 0x2d4030, Func Offset: 0x10
+  sp->plane[1].clipmask = 0x208; // Line 508, Address: 0x2d4038, Func Offset: 0x18
+  sp->plane[1].xyzflag = 0x11; // Line 509, Address: 0x2d4040, Func Offset: 0x20
+  sp->plane[2].clipmask = 0x104; // Line 510, Address: 0x2d4048, Func Offset: 0x28
+  sp->plane[2].xyzflag = 1; // Line 511, Address: 0x2d4050, Func Offset: 0x30
+  sp->plane[3].clipmask = 0x82; // Line 512, Address: 0x2d4058, Func Offset: 0x38
+  sp->plane[3].xyzflag = 0x10; // Line 513, Address: 0x2d4060, Func Offset: 0x40
+  sp->plane[4].clipmask = 0x41; // Line 514, Address: 0x2d4068, Func Offset: 0x48
+  sp->plane[4].xyzflag = 0;
+} // Line 516, Address: 0x2d4070, Func Offset: 0x50
 
 //
 // Start address: 0x2d4080
