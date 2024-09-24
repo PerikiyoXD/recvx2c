@@ -2,8 +2,8 @@
 
 NJS_MATRIX_WRAP TempMatrix0;
 NJS_MATRIX_WRAP TempMatrix1;
-NJS_MATRIX pNaMatMatrixStuckTop;
-NJS_MATRIX pNaMatMatrixStuckPtr;
+NJS_MATRIX* pNaMatMatrixStuckTop;
+NJS_MATRIX* pNaMatMatrixStuckPtr;
 int lNaMatMatrixStuckCnt;
 int lNaMatMatrixStuckMax;
 int lNaMatIsUnitMatrix;
@@ -12,55 +12,174 @@ extern NJS_SCREEN _nj_screen_;
 extern NJS_MATRIX NaViewScreenMatrix;
 
 
-//
-// Start address: 0x2d66b0
-void njInitMatrix(NJS_MATRIX* pMatrix, int lSize, int lFlag)
-{
-    float pi;
-    // Line 127, Address: 0x2d66b0, Func Offset: 0
-    // Line 130, Address: 0x2d66bc, Func Offset: 0xc
-    // Line 131, Address: 0x2d66c4, Func Offset: 0x14
-    // Line 132, Address: 0x2d66cc, Func Offset: 0x1c
-    // Line 133, Address: 0x2d66d4, Func Offset: 0x24
-    // Line 141, Address: 0x2d66d8, Func Offset: 0x28
-    // Line 133, Address: 0x2d66dc, Func Offset: 0x2c
-    // Line 141, Address: 0x2d66e0, Func Offset: 0x30
-    // Line 134, Address: 0x2d66e4, Func Offset: 0x34
-    // Line 141, Address: 0x2d66e8, Func Offset: 0x38
-    // Line 134, Address: 0x2d66ec, Func Offset: 0x3c
-    // Line 145, Address: 0x2d66f0, Func Offset: 0x40
-    // Line 146, Address: 0x2d66f4, Func Offset: 0x44
-    // Line 147, Address: 0x2d66f8, Func Offset: 0x48
-    // Line 148, Address: 0x2d66fc, Func Offset: 0x4c
-    // Line 149, Address: 0x2d6700, Func Offset: 0x50
-    // Line 150, Address: 0x2d6704, Func Offset: 0x54
-    // Line 151, Address: 0x2d670c, Func Offset: 0x5c
-    // Line 152, Address: 0x2d6710, Func Offset: 0x60
-    // Line 153, Address: 0x2d6714, Func Offset: 0x64
-    // Line 154, Address: 0x2d6718, Func Offset: 0x68
-    // Line 155, Address: 0x2d671c, Func Offset: 0x6c
-    // Line 156, Address: 0x2d6720, Func Offset: 0x70
-    // Line 157, Address: 0x2d6724, Func Offset: 0x74
-    // Line 158, Address: 0x2d6728, Func Offset: 0x78
-    // Line 159, Address: 0x2d672c, Func Offset: 0x7c
-    // Line 160, Address: 0x2d6730, Func Offset: 0x80
-    // Line 161, Address: 0x2d6734, Func Offset: 0x84
-    // Line 163, Address: 0x2d6738, Func Offset: 0x88
-    // Line 164, Address: 0x2d673c, Func Offset: 0x8c
-    // Line 165, Address: 0x2d6740, Func Offset: 0x90
-    // Line 166, Address: 0x2d6744, Func Offset: 0x94
-    // Line 167, Address: 0x2d6748, Func Offset: 0x98
-    // Line 168, Address: 0x2d674c, Func Offset: 0x9c
-    // Line 169, Address: 0x2d6750, Func Offset: 0xa0
-    // Line 170, Address: 0x2d6754, Func Offset: 0xa4
-    // Line 173, Address: 0x2d6758, Func Offset: 0xa8
-    // Line 174, Address: 0x2d675c, Func Offset: 0xac
-    // Line 175, Address: 0x2d6760, Func Offset: 0xb0
-    // Line 176, Address: 0x2d6764, Func Offset: 0xb4
-    // Line 178, Address: 0x2d6768, Func Offset: 0xb8
-    // Line 182, Address: 0x2d6770, Func Offset: 0xc0
-    // Func End, Address: 0x2d6780, Func Offset: 0xd0
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 100% match - Handwritten function */
+void njInitMatrix(NJS_MATRIX* pMatrix, int lSize, int lFlag) {
+    register float pi;
+
+    pNaMatMatrixStuckTop = pMatrix; // Line 130, Address: 0x2d66bc, Func Offset: 0xc
+    pNaMatMatrixStuckPtr = pMatrix; // Line 131, Address: 0x2d66c4, Func Offset: 0x14
+    lNaMatMatrixStuckCnt = 0; // Line 132, Address: 0x2d66cc, Func Offset: 0x1c
+    lNaMatMatrixStuckMax = lSize; // Line 133, Address: 0x2d66d4, Func Offset: 0x24
+    lNaMatIsUnitMatrix = lFlag; // Line 134, Address: 0x2d66e4, Func Offset: 0x34
+
+    
+    
+    
+    
+    
+    pi = 3.141592f; // Line 141, Address: 0x2d66d8, Func Offset: 0x28
+    
+    asm volatile (
+    .set noreorder
+        vaddw.xyz       vf1, vf0, vf0w;// Line 145, Address: 0x2d66f0, Func Offset: 0x40
+        vmul.w          vf1, vf0, vf0;// Line 146, Address: 0x2d66f4, Func Offset: 0x44
+        sub             t5, t5, t5;// Line 147, Address: 0x2d66f8, Func Offset: 0x48
+        addi            t0, t5, 0x80;// Line 148, Address: 0x2d66fc, Func Offset: 0x4c
+        addi            t1, t5, 0x100;// Line 149, Address: 0x2d6700, Func Offset: 0x50
+        mult            zero, t1, t1;// Line 150, Address: 0x2d6704, Func Offset: 0x54
+        mflo            t2;// Line 151, Address: 0x2d670c, Func Offset: 0x5c
+        mfc1            t3, pi;// Line 152, Address: 0x2d6710, Func Offset: 0x60
+        qmtc2           t0, vf3;// Line 153, Address: 0x2d6714, Func Offset: 0x64
+        qmtc2           t1, vf9;// Line 154, Address: 0x2d6718, Func Offset: 0x68
+        qmtc2           t2, vf10;// Line 155, Address: 0x2d671c, Func Offset: 0x6c
+        qmtc2           t3, vf11;// Line 156, Address: 0x2d6720, Func Offset: 0x70
+        vitof0.xyzw     vf3, vf3;// Line 157, Address: 0x2d6724, Func Offset: 0x74
+        vitof0.xyzw     vf9, vf9;// Line 158, Address: 0x2d6728, Func Offset: 0x78
+        vitof0.xyzw     vf10, vf10;// Line 159, Address: 0x2d672c, Func Offset: 0x7c
+        vaddx.y         vf3, vf0, vf9x;// Line 160, Address: 0x2d6730, Func Offset: 0x80
+        vaddx.z         vf3, vf0, vf10x;// Line 161, Address: 0x2d6734, Func Offset: 0x84
+    
+        vmulx.w         vf3, vf0, vf11x;// Line 163, Address: 0x2d6738, Func Offset: 0x88
+        vaddw.xyzw      vf2, vf0, vf0w;// Line 164, Address: 0x2d673c, Func Offset: 0x8c
+        vdiv            Q, vf0w, vf2w;// Line 165, Address: 0x2d6740, Func Offset: 0x90
+        vaddw.xyzw      vf2, vf2, vf0w;// Line 166, Address: 0x2d6744, Func Offset: 0x94
+        vaddw.xyzw      vf2, vf2, vf0w;// Line 167, Address: 0x2d6748, Func Offset: 0x98
+        vaddw.yzw       vf2, vf2, vf0w;// Line 168, Address: 0x2d674c, Func Offset: 0x9c
+        vaddw.zw        vf2, vf2, vf0w; vwaitq;// Line 169, Address: 0x2d6750, Func Offset: 0xa0
+        vmulq.w         vf2, vf0, Q;// Line 170, Address: 0x2d6754, Func Offset: 0xa4
+
+    
+        addi            t0, zero, 0xFFF;// Line 173, Address: 0x2d6758, Func Offset: 0xa8
+        qmtc2           t0, vf4;// Line 174, Address: 0x2d675c, Func Offset: 0xac
+        vitof0.xyz      vf4, vf4;// Line 175, Address: 0x2d6760, Func Offset: 0xb0
+        vaddx.z         vf16, vf0, vf4x;// Line 176, Address: 0x2d6764, Func Offset: 0xb4
+        vcallms         0xB68; // TODO: Use a label for the VU program
+        nop;
+    .set reorder
+    );
+    
+} // Line 182, Address: 0x2d6770, Func Offset: 0xc0
 
 //
 // Start address: 0x2d6780
