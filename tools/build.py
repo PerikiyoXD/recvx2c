@@ -102,12 +102,33 @@ def compile_source_files(compiler, sources, compiler_flags, include_dirs, define
 
     return objects, compile_commands, build_failed
 
+def compile_assembly_files(assembler, sources, assembler_flags, include_dirs, defines, env_vars):
+    """Compile all assembly files and return object file list and compile commands."""
+    objects = []
+    compile_commands = []
+    build_failed = False  # Track if any compilation fails
 
-def link_objects(linker, objects, linker_flags, libraries, library_dirs, env_vars):
+    for source in sources:
+        object_file = source.replace(".s", ".o")
+        objects.append(object_file)
+
+        compile_command = [assembler] + assembler_flags + ['-o', object_file , source]
+
+        colored_output(f"Building: {source}", color=Colors.OKCYAN)
+
+        # Continue compiling even if one source fails
+        if not run_command(compile_command, env_vars):
+            build_failed = True  # Mark the build as failed if any command fails
+
+        compile_commands.append(create_compile_command_entry(assembler, source, object_file, include_dirs, defines))
+
+    return objects, compile_commands, build_failed
+
+def link_objects(linker, objects, linker_flags, linker_post_flags, libraries, library_dirs, env_vars):
     """Link object files into the final executable."""
     output_elf = "main.elf"
     link_command = [linker] + linker_flags + objects + ['-o', output_elf] + \
-                   [f'-L{lib}' for lib in library_dirs] + libraries
+                   [f'-L{lib}' for lib in library_dirs] + libraries + linker_post_flags
 
     if not run_command(link_command, env_vars):
         return None  # Return None if linking fails
@@ -125,8 +146,10 @@ def main(args):
     library_dirs = env_vars["libraries"]
     compiler_flags = env_vars["compiler_flags"]
     linker_flags = env_vars["linker_flags"]
+    linker_post_flags = env_vars.get("linker_post_flags", [])
     libraries = env_vars["libs"]
     sources = env_vars["source_files"]
+    assemblies = env_vars.get("assembly_files", [])
     defines = env_vars.get("defines", [])
     actions = env_vars.get("actions", {"compile": True, "link": True})
 
@@ -142,7 +165,19 @@ def main(args):
     else: 
         objects, compile_commands, build_failed = compile_source_files(compiler, sources, compiler_flags, include_dirs, defines, compiler_env)
         colored_output(f"Objects: {objects}", color=Colors.OKCYAN)
-    
+
+    # Compile assembly files
+    assembler = env_vars.get("assembler", "as")
+
+    if not actions["compile"]:
+        colored_output("Skipping assembly compilation.", color=Colors.WARNING, bold=True)
+    else:
+        assembly_objects, assembly_compile_commands, assembly_build_failed = compile_assembly_files(assembler, assemblies, [], include_dirs, defines, compiler_env)
+        colored_output(f"Assembly objects: {assembly_objects}", color=Colors.OKCYAN)
+
+    # Merge the objects
+    objects += assembly_objects
+
     # Even if the compilation fails, we want to generate the compile_commands.json for IDEs
     write_json('compile_commands.json', compile_commands)
 
@@ -156,10 +191,23 @@ def main(args):
                 "MWLibraries": ";".join(library_dirs),
                 "MWLibraryFiles": ""
             }
-            output_elf = link_objects(linker, objects, linker_flags, libraries, library_dirs, linker_env)
+            output_elf = link_objects(linker, objects, linker_flags, linker_post_flags, libraries, library_dirs, linker_env)
 
             if output_elf:
                 colored_output(f"Build completed successfully: {output_elf}", color=Colors.OKGREEN, bold=True)
+
+                postbuild_commands = env_vars.get("postbuild", [])
+
+                for command in postbuild_commands: 
+                    # actual entry example: ["py", ".\\putblob.py", ".\\main.elf", ".\\blobs\\ps2vu0sub0.bin", "0x250900"],
+
+                    colored_output(f"Running postbuild command: {command}", color=Colors.OKCYAN)
+                    if not run_command(command, env_vars):
+                        colored_output("Postbuild command failed.", color=Colors.FAIL, bold=True)
+                        break
+
+                    colored_output("Postbuild command completed successfully.", color=Colors.OKGREEN, bold=True)
+
             else:
                 colored_output("Build failed during linking.", color=Colors.FAIL, bold=True)
     else:
