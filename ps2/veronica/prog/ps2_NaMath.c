@@ -1,47 +1,65 @@
-typedef struct _anon0;
+#include "ps2_NaMath.h"
+#include <math.h>
+
+Float SinTable[SIN_TABLE_SIZE];
 
 
-typedef float type[16384];
 
-struct _anon0
-{
-	int keys;
-	int* iparam;
-	float* fparam;
-};
 
-float SinTable[16384];
 
-void _Make_SinTable();
-float njSin(int lAngle);
-float njCos(int lAngle);
-void njSinCos(int lAngle, float* sin, float* cos);
-float njFraction(float fN);
-float njSqrt(float x);
-float njInvertSqrt(float x);
-void njLinear(float* fpIdata, float* fpOdata, float fFrame);
-void njOverhauserSpline(float* fpIdata, float* fpOdata, _anon0* pAttr, float fT);
-void njBezierSpline(float* fpIdata, float* fpOdata, _anon0* pAttr, float fFrame);
-unsigned int njFactorial(unsigned int ulN);
 
-// 
-// Start address: 0x2d7c50
-void _Make_SinTable()
-{
-	int i;
-	// Line 51, Address: 0x2d7c50, Func Offset: 0
-	// Line 54, Address: 0x2d7c68, Func Offset: 0x18
-	// Line 55, Address: 0x2d7c6c, Func Offset: 0x1c
-	// Line 56, Address: 0x2d7c88, Func Offset: 0x38
-	// Line 55, Address: 0x2d7c8c, Func Offset: 0x3c
-	// Line 56, Address: 0x2d7c90, Func Offset: 0x40
-	// Line 58, Address: 0x2d7c9c, Func Offset: 0x4c
-	// Func End, Address: 0x2d7cb0, Func Offset: 0x60
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void _Make_SinTable(void) { // Line 51, Address: 0x2d7c50, Func Offset: 0
+    int i;
+
+    for (i = 0; i < SIN_TABLE_SIZE; i++) { // Line 54, Address: 0x2d7c68, Func Offset: 0x18
+        SinTable[i] = sinf(0.0000958738f * i); // Line 55, Address: 0x2d7c6c, Func Offset: 0x1c
+    } // Line 56, Address: 0x2d7c88, Func Offset: 0x38
+    
+}  // Line 58, Address: 0x2d7c9c, Func Offset: 0x4c
 
 // 
 // Start address: 0x2d7cb0
-float njSin(int lAngle)
+Float njSin(Angle n)
 {
 	float ret;
 	// Line 79, Address: 0x2d7cb0, Func Offset: 0
@@ -75,7 +93,7 @@ float njSin(int lAngle)
 
 // 
 // Start address: 0x2d7d40
-float njCos(int lAngle)
+float njCos(Angle lAngle)
 {
 	float ret;
 	// Line 172, Address: 0x2d7d40, Func Offset: 0
@@ -109,7 +127,7 @@ float njCos(int lAngle)
 
 // 
 // Start address: 0x2d7dd0
-void njSinCos(int lAngle, float* sin, float* cos)
+void njSinCos(Angle lAngle, float* sin, float* cos)
 {
 	// Line 254, Address: 0x2d7dd0, Func Offset: 0
 	// Line 289, Address: 0x2d7dd8, Func Offset: 0x8
@@ -201,7 +219,7 @@ float njInvertSqrt(float x)
 
 // 
 // Start address: 0x2d7f50
-void njLinear(float* fpIdata, float* fpOdata, float fFrame)
+void njLinear(Float* fpIdata, Float* fpOdata, Float fFrame)
 {
 	// Line 526, Address: 0x2d7f50, Func Offset: 0
 	// Line 527, Address: 0x2d7f54, Func Offset: 0x4
@@ -229,7 +247,7 @@ void njLinear(float* fpIdata, float* fpOdata, float fFrame)
 
 // 
 // Start address: 0x2d7fb0
-void njOverhauserSpline(float* fpIdata, float* fpOdata, _anon0* pAttr, float fT)
+void njOverhauserSpline(Float* fpIdata, Float* fpOdata, void* pAttr, Float fT)
 {
 	float ftmp;
 	// Line 594, Address: 0x2d7fb0, Func Offset: 0
@@ -292,7 +310,7 @@ void njOverhauserSpline(float* fpIdata, float* fpOdata, _anon0* pAttr, float fT)
 
 // 
 // Start address: 0x2d80a0
-void njBezierSpline(float* fpIdata, float* fpOdata, _anon0* pAttr, float fFrame)
+void njBezierSpline(Float* fpIdata, Float* fpOdata, void* pAttr, Float fFrame)
 {
 	float fResult;
 	float fFactMax;
