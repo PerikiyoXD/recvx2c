@@ -5,7 +5,6 @@
 NJS_MATRIX cmat; /* UNUSED */
 extern float BHD_ASPECT_X;
 extern float BHD_ASPECT_Y;
-HardwareScreenInfo* hws;
 extern int pd_port; /* UNUSED */
 SYS* sys;
 extern ROOM* rom; /* UNUSED */
@@ -17,7 +16,7 @@ NJS_VIEW view;
 NJS_MATRIX mbuf[128];
 Sint8* vwbmemp;
 unsigned char* vebmemp;
-unsigned char* Ps2_PXLCONV;
+extern unsigned char* Ps2_PXLCONV;
 unsigned char* njpmemp;
 unsigned char* freemem;
 unsigned int Ps2_sys_cnt;
@@ -29,11 +28,12 @@ extern BH_PWORK ply; /* UNUSED */
 extern Camera cam; /* UNUSED */
 ROOM romp; /* UNUSED */
 SYS sysp; /* UNUSED */
-HardwareScreenInfo hwsp; /* UNUSED */
 char BIO_CURRENT[64]; /* UNUSED */
 
 
 
+HardwareScreenInfo hwsp;
+HardwareScreenInfo* hws = &hwsp;
 
 
 
@@ -149,8 +149,8 @@ char BIO_CURRENT[64]; /* UNUSED */
 void njUserInit() { // Line 149, Address: 0x12b0f0
     int temp; // not originally outputted by dwarf2cpp
     
-    scePrintf("njUserInit\n");
-    
+
+
     
     
     
@@ -340,8 +340,7 @@ int njUserMain() { // Line 300, Address: 0x12b430
 
 /* 100% match */
 void njUserExit() { // Line 342, Address: 0x12b4e0
-    scePrintf("njUserExit\n");
-    //NERF// ExitSoundProgram(); // Line 343, Address: 0x12b4e8
+    ExitSoundProgram(); // Line 343, Address: 0x12b4e8
     
     BupExit(); // Line 345, Address: 0x12b4f0,
 

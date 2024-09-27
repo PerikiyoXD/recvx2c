@@ -9,7 +9,7 @@ extern float Ps2_rand_seed[4];
 extern unsigned int PS2_Render_tex_sub_flag;
 extern unsigned int Ps2_ice_flag;
 extern unsigned int Ps2_albinoid_flag;
-extern sceGsDBuff Db;
+extern sceGsDBuffDc Db;
 extern void* Ps2_tex_buff;
 extern unsigned char Ps2_tex_mem[10485760];
 extern MOVIE_INFO MovieInfo;

@@ -1,5 +1,6 @@
 #include "ps2_NaSystem.h"
 
+sceGsDBuffDc Db;
 //
 // Start address: 0x2e1380
 void njSetTextureMemorySize(unsigned int size)

@@ -195,7 +195,7 @@ extern char sound_flag;
 extern char ADX_STREAM_BUFFER[471040];
 extern unsigned char* Ps2_MOVIE;
 extern long128 test_tag[1400];
-extern sceGsDBuff db;
+extern sceGsDBuffDc db;
 extern unsigned int Ps2_vcount;
 
 // Function declarations

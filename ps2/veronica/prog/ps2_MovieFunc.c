@@ -44,7 +44,7 @@ int movie_draw;
 char sound_flag;
 unsigned char* Ps2_MOVIE;
 extern long128 test_tag[1400];
-sceGsDBuff db;
+sceGsDBuffDc db;
 
 //
 // Start address: 0x2eb590
