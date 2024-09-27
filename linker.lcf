@@ -1,139 +1,144 @@
 MEMORY
 {
-	main	(RWX)	: ORIGIN = 0x100000,	LENGTH = 0x0
-	heap	(RW)	: ORIGIN = AFTER(main),	LENGTH = 0x0
+    main (RWX) : ORIGIN = 0x00100000, LENGTH = 0x0
+    heap (RW)  : ORIGIN = 0x01e2cd00, LENGTH = 0x0
 }
-
-#FORCE_ACTIVE
-#{
-#}
-
-KEEP_SECTION
-{
-	.vutext,
-	.vudata,
-	.vubss
-}
-
-#REF_INCLUDE
-#{
 
 SECTIONS
 {
-		#	define for crt0
-		_heap_size	= -1;
-		_stack	= -1;
-		_stack_size	= 0x00100000;
-		#	define for lcf
-		_align_segment	= 0x80;
+    #!>    define for crt0
+    _heap_size = -1;
+    _stack = -1;
+    _stack_size = 0x00100000;
+    #!>    define for lcf
+    _align_segment = 0x80;
 
-	.main	:
-	{
-		#	text sections
-		.	= ALIGN(0x80);
-		main.o	(.text)
-		.	= ALIGN(0x10);
-		ALIGNALL(0x8);
-		GROUP(ROOT)	(.text)
-		WRITEW	0x0;	# text section patch for EE pipeline
-		WRITEW	0x0;	# text section patch for EE pipeline
-		.	= ALIGN(0x80);
-		ALIGNALL(0x8);
-		GROUP(ROOT)	(.vutext)
+    .main :
+    {
+        #!>    text sections
+        . = ALIGN(0x80);
+        main.o (.text)
+        . = ALIGN(0x10);
+        ALIGNALL(0x8);
+        GROUP(ROOT) (.text)
+        WRITEW 0x0; # text section patch for EE pipeline
+        WRITEW 0x0; # text section patch for EE pipeline
 
-		#	.reginfo
-		main.o	(.reginfo)
+        . = ALIGN(0x80);
+        ALIGNALL(0x8);
+        GROUP(ROOT) (.vutext)
 
-		#	data sections
-		__data_start	= .;
-		.	= ALIGN(0x80);
-		ALIGNALL(0x8);
-		GROUP(ROOT)	(.data)
-		.	= ALIGN(0x80);
-		ALIGNALL(0x8);
-		GROUP(ROOT)	(.vudata)
-		.	= ALIGN(0x80);
-		ALIGNALL(0x8);
-		GROUP(ROOT)	(.rodata)
-		.	= ALIGN(0x80);
-		ALIGNALL(0x8);
-		GROUP(ROOT)	(.rdata)
+        #!>    .reginfo
+        main.o (.reginfo)
 
-		#	static initializers
-		.	= ALIGN(0x10);
-		ALIGNALL(0x4);
-		GROUP(ROOT)	(.init)
-		.	= ALIGN(0x10);
-		ALIGNALL(0x4);
-		__static_init	= .;
-		GROUP(ROOT)	(.ctor)
-		__static_init_end	= .;
+        #!>    data sections
+        #!>    data start hardcoded to 0x202000
+        . = 0x301f80; 
+        __data_start = .;
+        . = ALIGN(0x80);
+        ALIGNALL(0x8);
+        GROUP(ROOT) (.data)
+        . = ALIGN(0x80);
+        ALIGNALL(0x8);
 
-		#	.vtables
-		.	= ALIGN(0x10);
-		ALIGNALL(0x4);
-		*	(.vtables)
+        . = 0x350880;
+        ps2_vu0sub0 = .;
+        #INCLUDE ps2vu0sub0.bin;
 
-		#	exception table
-		.	= ALIGN(0x10);
-		__exception_table_start__	= .;
-		__exception_table_end__	= .;
+        . = 0x351800;
+        ps2_vu1sub0 = .;
+        #INCLUDE ps2vu1sub0.bin;
 
-		#	addresses for each overlay module
-		.	= ALIGN(0x10);
-		_overlay_group_addresses	= .;
-		WRITEW ADDR(.main);	#
+        . = 0x352d20;
+        ps2_vu1sub1 = .;
+        #INCLUDE ps2vu1sub1.bin;
+        . = ALIGN(0x80);
 
-		__data_end	= .;
-		__data_size	= __data_end - __data_start;
+        GROUP(ROOT) (.vudata)
+        . = ALIGN(0x80);
+        ALIGNALL(0x8);
 
-		#	the address of gp register
-		_gp	= ALIGN(128) + 0x7FF0;
 
-		#	literal
-		.	= ALIGN(0x80);
-		ALIGNALL(0x8);
-		LITERAL
+        GROUP(ROOT) (.rodata)
+        . = ALIGN(0x80);
+        ALIGNALL(0x8);
+        GROUP(ROOT) (.rdata)
 
-		#	small data sections
-		.	= ALIGN(0x80);
-		ALIGNALL(0x4);
-		*	(.sdata)
-		.	= ALIGN(0x80);
-		_fbss	= .;
-		ALIGNALL(0x4);
-		*	(.sbss)
-		ALIGNALL(0x4);
-		*	(.scommon)
-		ALIGNALL(0x4);
-		*	(SCOMMON)
+        #!>    static initializers
+        . = ALIGN(0x10);
+        ALIGNALL(0x4);
+        GROUP(ROOT) (.init)
+        . = ALIGN(0x10);
+        ALIGNALL(0x4);
+        __static_init = .;
+        GROUP(ROOT) (.ctor)
+        __static_init_end = .;
 
-		#	bss sections
-		__bss_start	= .;
-		.	= ALIGN(0x80);
-		ALIGNALL(0x8);
-		GROUP(ROOT)	(.bss)
-		ALIGNALL(0x8);
-		GROUP(ROOT)	(.common)
-		ALIGNALL(0x8);
-		GROUP(ROOT)	(COMMON)
-		.	= ALIGN(0x80);
-		ALIGNALL(0x8);
-		GROUP(ROOT)	(.vubss)
-		ALIGNALL(0x8);
-		__bss_end	= .;
-		__bss_size	= __bss_end - __bss_start;
+        #!>    .vtables
+        . = ALIGN(0x10);
+        ALIGNALL(0x4);
+        * (.vtables)
 
-		.	= ALIGN(_align_segment);
+        #!>    exception table
+        . = ALIGN(0x10);
+        __exception_table_start__ = .;
+        __exception_table_end__ = .;
 
-	}	>	main
+        #!>    addresses for each overlay module
+        . = ALIGN(0x10);
+        _overlay_group_addresses = .;
+        WRITEW ADDR(.main); #
 
-	.heap	:
-	{
-		#	to get the address for heap
-		end	= .;
-		_end	= .;
-	}	>	heap
+        __data_end = .;
+        __data_size = __data_end - __data_start;
+
+        #!>    the address of gp register
+        _gp = ALIGN(128) + 0x7FF0;
+
+        #!>    literal
+        . = ALIGN(0x80);
+        ALIGNALL(0x8);
+        LITERAL
+
+        #!>    small data sections
+        . = ALIGN(0x80);
+        ALIGNALL(0x4);
+        * (.sdata)
+        . = ALIGN(0x80);
+        _fbss = .;
+        ALIGNALL(0x4);
+        * (.sbss)
+        ALIGNALL(0x4);
+        * (.scommon)
+        ALIGNALL(0x4);
+        * (SCOMMON)
+
+        #!>    bss sections
+        __bss_start = .;
+        . = ALIGN(0x80);
+        ALIGNALL(0x8);
+        GROUP(ROOT) (.bss)
+        ALIGNALL(0x8);
+        GROUP(ROOT) (.common)
+        ALIGNALL(0x8);
+        GROUP(ROOT) (COMMON)
+        . = ALIGN(0x80);
+        ALIGNALL(0x8);
+        GROUP(ROOT) (.vubss)
+        ALIGNALL(0x8);
+        __bss_end = .;
+        __bss_size = __bss_end - __bss_start;
+
+        . = ALIGN(_align_segment);
+
+    } > main
+
+    .heap :
+    {
+        #!>    to get the address for heap
+        end = .;
+        _end = .;
+    } > heap
 
 
 }
