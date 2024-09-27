@@ -3,6 +3,7 @@
 #ifndef _PS2_LOADTIM2_H_
 #define _PS2_LOADTIM2_H_
 
+#include "ps2_prefix.h"
 
 #include "tim2.h"
 
