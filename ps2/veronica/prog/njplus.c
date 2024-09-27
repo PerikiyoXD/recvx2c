@@ -1,6 +1,8 @@
 #include "njplus.h"
 #include "types.h"
 
+njplus_anon20 np;
+
 //
 // Start address: 0x12b670
 void npPlusInit()
