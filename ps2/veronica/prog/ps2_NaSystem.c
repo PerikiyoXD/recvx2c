@@ -152,12 +152,12 @@ void Ps2InitFunc() {
 
 /* 100% match */
 void njSetEORFunction(void (*func)()) {
-
+    
     if (func == NULL) { // Line 156, Address: 0x2e1410, Func Offset: 0
         EorFunc = &null_func; // Line 157, Address: 0x2e1418, Func Offset: 0x8
-        return; // Line 158, Address: 0x2e1424, Func Offset: 0x14
-    } EorFunc = func; // Line 159, Address: 0x2e142c, Func Offset: 0x1c
-
+    } else { // Line 158, Address: 0x2e1424, Func Offset: 0x14
+        EorFunc = func; // Line 159, Address: 0x2e142c, Func Offset: 0x1c
+    }
 } // Line 161, Address: 0x2e1434, Func Offset: 0x24
 
 
@@ -249,12 +249,12 @@ void Ps2SetVSyncCounter() { // Line 232, Address: 0x2e15b0, Func Offset: 0
 /* 100% match */
 void njSetVSyncFunction(void (*func)()) {
     Ps2_vcount = 0; // Line 251, Address: 0x2e15f0, Func Offset: 0
+
     if (func == NULL) { // Line 253, Address: 0x2e15f4, Func Offset: 0x4
         VsyncFunc = &null_func; // Line 254, Address: 0x2e15fc, Func Offset: 0xc
-        return; // Line 255, Address: 0x2e1608, Func Offset: 0x18
+    } else { // Line 255, Address: 0x2e1608, Func Offset: 0x18
+        VsyncFunc = func; // Line 256, Address: 0x2e1610, Func Offset: 0x20
     }
-    VsyncFunc = func; // Line 256, Address: 0x2e1610, Func Offset: 0x20
-
 
 } // Line 259, Address: 0x2e1618, Func Offset: 0x28
 
