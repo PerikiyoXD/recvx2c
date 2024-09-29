@@ -1,20 +1,20 @@
-#include "types.h"
+#include "vibman.h"
 
 char PortIdTbl[4];
-int EnadleVibrationFlag;
-unsigned int VibStopTime;
+Sint32 EnadleVibrationFlag;
+Uint32 VibStopTime;
 
-void InitVibrationUnit();
-void ExitVibrationUnit();
-void SetUseVibrationUnit(int Flag);
-int GetUseVibrationUnit();
-int CheckVibrationUnit(unsigned int PortId);
-int StartVibration(unsigned int PortId, VibrationInfo* vpp);
-int StopVibration(unsigned int PortId);
+
+
+
+
+
+
+
 
 /* 100% match */
 void InitVibrationUnit() { // Line 16, Address: 0x2c84e0
-    int i;
+    Sint32 i;
 
     VibStopTime = 20; // Line 19, Address: 0x2c84f0
 
@@ -29,7 +29,7 @@ void InitVibrationUnit() { // Line 16, Address: 0x2c84e0
 
 /* 100% match */
 void ExitVibrationUnit() { // Line 31, Address: 0x2c8560
-    int i;
+    Sint32 i;
 
     for (i = 0; i < 4; ++i) { // Line 34, Address: 0x2c8578
         if (CheckVibrationUnit(PortIdTbl[i]) == 1) { // Line 35, Address: 0x2c857c
@@ -39,18 +39,18 @@ void ExitVibrationUnit() { // Line 31, Address: 0x2c8560
 } // Line 39, Address: 0x2c85a8
 
 /* 100% match */
-void SetUseVibrationUnit(int Flag) {
+void SetUseVibrationUnit(Sint32 Flag) {
     EnadleVibrationFlag = Flag; // Line 43, Address: 0x2c85c0
 } // Line 44, Address: 0x2c85c4
 
 /* 100% match */
-int GetUseVibrationUnit() {
+Sint32 GetUseVibrationUnit() {
     return EnadleVibrationFlag; // Line 48, Address: 0x2c85d0
 } // Line 49, Address: 0x2c85d4
 
 /* 100% match */
-int CheckVibrationUnit(unsigned int PortId) {
-    return pdVibMxIsReady(); // Line 53, Address: 0x2c85e0
+Sint32 CheckVibrationUnit(Uint32 PortId) {
+    return pdVibMxIsReady(PortId); // Line 53, Address: 0x2c85e0
 }
 
 
@@ -59,7 +59,7 @@ int CheckVibrationUnit(unsigned int PortId) {
 
 
 /* 100% match */
-int StartVibration(unsigned int PortId, VibrationInfo* vpp) { // Line 62, Address: 0x2c85f0
+Sint32 StartVibration(Uint32 PortId, PDS_VIBPARAM* vpp) { // Line 62, Address: 0x2c85f0
 
 
     if (EnadleVibrationFlag == 0) { // Line 65, Address: 0x2c8600
@@ -83,7 +83,7 @@ int StartVibration(unsigned int PortId, VibrationInfo* vpp) { // Line 62, Addres
 } // Line 83, Address: 0x2c8670
 
 /* 100% match */
-int StopVibration(unsigned int PortId) { // Line 86, Address: 0x2c8690
+Sint32 StopVibration(Uint32 PortId) { // Line 86, Address: 0x2c8690
   if (EnadleVibrationFlag == 0) { // Line 87, Address: 0x2c869c
     return 0; // Line 88, Address: 0x2c86ac
   }
