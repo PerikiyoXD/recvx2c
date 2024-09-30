@@ -409,7 +409,7 @@ void njSetPaletteBankNum(unsigned int n, int bank)
 }
 
 /* empty */
-void njSetPaletteMode() { } // Line 773, Address: 0x2e24d0, Func Offset: 0
+void njSetPaletteMode(Uint32 mode) { } // Line 773, Address: 0x2e24d0, Func Offset: 0
 
 //
 // Start address: 0x2e24e0
