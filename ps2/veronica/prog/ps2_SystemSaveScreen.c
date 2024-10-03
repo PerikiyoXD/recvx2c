@@ -1,14 +1,14 @@
 #include "ps2_SystemSaveScreen.h"
 #include "types.h"
 
-SELECTFILEWINDOW SelectFileWindow;
-SELECTFILEINFO SelectFileInfo[15];
-char* cpNameList;
-ICONINFORMATION IconInfo;
-MEMORYCARDSTATE McState;
-SAVEFILE SaveFile;
-CONFIGFILE ConfigFile;
-unsigned char SaveLoadMessage[10956];
+extern SELECTFILEWINDOW SelectFileWindow;
+extern SELECTFILEINFO SelectFileInfo[15];
+extern char* cpNameList;
+extern ICONINFORMATION IconInfo;
+extern MEMORYCARDSTATE McState;
+extern SAVEFILE SaveFile;
+extern CONFIGFILE ConfigFile;
+extern unsigned char SaveLoadMessage[10956];
 extern Controller Pad[4];
 extern SYS* sys;
 

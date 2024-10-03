@@ -5,7 +5,7 @@
 
 #include "configfile.h"
 #include "icon_information.h"
-#include "memorycard.h"
+#include "ps2_MemoryCard.h"
 #include "savefile.h"
 #include "selectfilewindow.h"
 

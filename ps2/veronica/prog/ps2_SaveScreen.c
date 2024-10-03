@@ -20,12 +20,12 @@ char cSaveData12[12];
 char cSaveData13[12];
 char cSaveData14[12];
 char* cpNameList[18];
-SELECTFILEWINDOW SelectFileWindow;
-SELECTFILEINFO SelectFileInfo[15];
-ICONINFORMATION IconInfo;
-MEMORYCARDSTATE McState;
-SAVEFILE SaveFile;
-CONFIGFILE ConfigFile;
+extern SELECTFILEWINDOW SelectFileWindow;
+extern SELECTFILEINFO SelectFileInfo[15];
+extern ICONINFORMATION IconInfo;
+extern MEMORYCARDSTATE McState;
+extern SAVEFILE SaveFile;
+extern CONFIGFILE ConfigFile;
 extern SYS* sys;
 
 // 

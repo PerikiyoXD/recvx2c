@@ -7,7 +7,7 @@ char* cpNameList;
 ICONINFORMATION IconInfo;
 MEMORYCARDSTATE McState;
 SAVEFILE SaveFile;
-CONFIGFILE ConfigFile;
+extern CONFIGFILE ConfigFile;
 extern SYS* sys;
 
 // 

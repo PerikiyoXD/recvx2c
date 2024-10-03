@@ -1,4 +1,5 @@
 #include "ps2_SystemLoadScreen.h"
+#include "ps2_McSaveFile.h"
 #include "types.h"
 
 SELECTFILEWINDOW SelectFileWindow;
@@ -8,35 +9,87 @@ ICONINFORMATION IconInfo;
 MEMORYCARDSTATE McState;
 SAVEFILE SaveFile;
 CONFIGFILE ConfigFile;
-unsigned char SaveLoadMessage[10956];
+extern unsigned char SaveLoadMessage[10956];
 extern Controller Pad[4];
 extern SYS* sys;
 
-//
-// Start address: 0x2770c0
-SYSLOAD_SCREEN* CreateSysLoadScreen(SYSLOAD_SCREEN* pSysLoad, void* vpWorkPtrSys)
-{
-    // Line 71, Address: 0x2770c0, Func Offset: 0
-    // Line 72, Address: 0x2770d0, Func Offset: 0x10
-    // Line 73, Address: 0x2770d4, Func Offset: 0x14
-    // Line 74, Address: 0x2770d8, Func Offset: 0x18
-    // Line 75, Address: 0x2770dc, Func Offset: 0x1c
-    // Line 76, Address: 0x2770e0, Func Offset: 0x20
-    // Line 77, Address: 0x2770e4, Func Offset: 0x24
-    // Line 78, Address: 0x2770e8, Func Offset: 0x28
-    // Line 79, Address: 0x2770ec, Func Offset: 0x2c
-    // Line 80, Address: 0x2770f4, Func Offset: 0x34
-    // Line 81, Address: 0x277108, Func Offset: 0x48
-    // Line 82, Address: 0x277118, Func Offset: 0x58
-    // Line 83, Address: 0x277128, Func Offset: 0x68
-    // Line 84, Address: 0x277144, Func Offset: 0x84
-    // Line 85, Address: 0x277154, Func Offset: 0x94
-    // Line 86, Address: 0x27716c, Func Offset: 0xac
-    // Line 89, Address: 0x277170, Func Offset: 0xb0
-    // Line 91, Address: 0x277178, Func Offset: 0xb8
-    // Line 92, Address: 0x27717c, Func Offset: 0xbc
-    // Func End, Address: 0x277190, Func Offset: 0xd0
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 100% match */
+SYSLOAD_SCREEN * CreateSysLoadScreen(SYSLOAD_SCREEN *pSysLoad,void *vpWorkPtrSys) { // Line 71, Address: 0x2770c0, Func Offset: 0
+    pSysLoad->ulState = 0; // Line 72, Address: 0x2770d0, Func Offset: 0x10
+    pSysLoad->ulSubState = 0; // Line 73, Address: 0x2770d4, Func Offset: 0x14
+    pSysLoad->ulFileSize = 0; // Line 74, Address: 0x2770d8, Func Offset: 0x18
+    pSysLoad->ulMemCheckCountTimer = 0; // Line 75, Address: 0x2770dc, Func Offset: 0x1c
+    pSysLoad->lCardState = 0; // Line 76, Address: 0x2770e0, Func Offset: 0x20
+    pSysLoad->usExitFlag = 0; // Line 77, Address: 0x2770e4, Func Offset: 0x24
+    pSysLoad->usLoopCount = 0; // Line 78, Address: 0x2770e8, Func Offset: 0x28
+    pSysLoad->cMesFlag = '\0'; // Line 79, Address: 0x2770ec, Func Offset: 0x2c
+    pSysLoad->pConfigFile = mcCreateConfigInit(&ConfigFile); // Line 80, Address: 0x2770f4, Func Offset: 0x34
+    pSysLoad->pSaveFile = mcCreateSaveFileInit(&SaveFile); // Line 81, Address: 0x277108, Func Offset: 0x48
+    pSysLoad->pMcState = CreateMemoryCard(&McState); // Line 82, Address: 0x277118, Func Offset: 0x58
+    pSysLoad->pIconInfo = mcCreateIconInit(&IconInfo, &cpNameList, 1); // Line 83, Address: 0x277128, Func Offset: 0x68
+    pSysLoad->pSelectFileInfo = mcSelectFileInfoInit(SelectFileInfo); //Line 84, Address: 0x277144, Func Offset: 0x84
+    pSysLoad->pSelectFileWindow = mcCreateFileSelectWindow(&SelectFileWindow, pSysLoad->pSelectFileInfo, 0xf); // Line 85, Address: 0x277154, Func Offset: 0x94
+    pSysLoad->vpReadBuffer = vpWorkPtrSys; // Line 86, Address: 0x27716c, Func Offset: 0xac
+
+    AnalyzeMemoryCardAll(pSysLoad->pMcState); // Line 89, Address: 0x277170, Func Offset: 0xb0
+
+    return pSysLoad; // Line 91, Address: 0x277178, Func Offset: 0xb8
+} // Line 92, Address: 0x27717c, Func Offset: 0xbc
 
 //
 // Start address: 0x277190

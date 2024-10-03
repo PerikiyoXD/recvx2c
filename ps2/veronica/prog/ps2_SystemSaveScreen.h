@@ -5,10 +5,10 @@
 
 #include "configfile.h"
 #include "icon_information.h"
-#include "memorycard.h"
 #include "savefile.h"
 #include "selectfileinfo.h"
 #include "selectfilewindow.h"
+#include "ps2_MemoryCard.h"
 
 typedef struct tagSYSSAVE_SCREEN {
     unsigned int ulState;
